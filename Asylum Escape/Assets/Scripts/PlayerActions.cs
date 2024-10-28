@@ -18,18 +18,21 @@ public class PlayerActions : MonoBehaviour
             Collider[] colliderArray = Physics.OverlapSphere(transform.position, MaxUseDist);
             foreach (Collider collider in colliderArray)
             {
+                
                 if (collider.TryGetComponent(out Door dor))
                 {
+                    Debug.Log(collider);
                     if (!dor.isOpended)
                     {
-                        Debug.Log(1);
+                       
                         dor.open(transform.position);
                     }
                     else {
-                        Debug.Log(0);
+                      
                         dor.close();
                     }
                 }
+              
             }
         }
     }

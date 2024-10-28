@@ -14,6 +14,7 @@ public class Door : MonoBehaviour
     private float rotationAmount = 90f;
     [SerializeField]
     private float fowardDirection = 0f;
+   
 
     private Vector3 startRotation;
     private Vector3 foward;
@@ -35,7 +36,6 @@ public class Door : MonoBehaviour
             if (isRotatingDoor)
             {
                 float dot = Vector3.Dot(foward, (UserPositon - transform.position).normalized);
-                Debug.Log($"Dot: {dot.ToString("N3")}");
                 AnimationCoroutine = StartCoroutine(DoRotationOpen(dot));
             }
 
