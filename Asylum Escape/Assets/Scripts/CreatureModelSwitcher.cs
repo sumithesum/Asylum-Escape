@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerModelSwitcher : MonoBehaviour
+public class CreatureModelSwitcher : MonoBehaviour
 {
     public Transform model1;
     public Transform model2;

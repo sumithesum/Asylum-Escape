@@ -17,14 +17,30 @@ public class CreatureAI : MonoBehaviour
     public float walkPointRange;
 
     //States
-    public float sightRange, attackRange;
+    [SerializeField] public float sightRange, attackRange;
+
     public bool playerInSightRange, playerInAttackRange;
+    public bool isWalking, isAttacking;
+
+
+    //Attack parameters
+    [SerializeField] public float attackDelay;
+
+    
+
 
     private void Awake()
     {
         player = GameObject.Find("PlayerObj").transform;
         agent = GetComponent<NavMeshAgent>();
     }
+
+    private void Start()
+    {
+        isWalking = true;
+        isAttacking = false;
+    }
+
 
     private void Update()
     {
@@ -34,10 +50,73 @@ public class CreatureAI : MonoBehaviour
 
         if (!playerInSightRange && !playerInAttackRange) Patroling();
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
+        if (playerInSightRange && playerInAttackRange) AttackPlayer();
     }
+
+    private void AttackPlayer()
+    {
+        if (isAttacking == true)
+        {
+            return;
+        }
+
+        isAttacking = true;
+        isWalking = false;
+
+        // Define Attack behaviour once we have Health System etc.
+        StartCoroutine(AttackRoutine());
+    }
+
+    private IEnumerator AttackRoutine()
+    {
+        float rotationSpeed = 10f; 
+        bool isRotating = true;
+
+        while (isRotating)
+        {
+            Vector3 facingDirection = (player.position - transform.position).normalized;
+
+            // Ignore the Y-axis rotation by zeroing out the Y component
+            facingDirection.y = 0;
+
+            // Create the target rotation towards the player
+            Quaternion targetRotation = Quaternion.LookRotation(facingDirection);
+
+            // Smoothly rotate the creature towards the player
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+
+            // Check if the rotation is complete (or close enough to be considered done)
+            print(targetRotation);
+            print(transform.rotation);
+            print(Quaternion.Angle(transform.rotation, targetRotation));
+
+            if (Quaternion.Angle(transform.rotation, targetRotation) < 1f)
+            {
+                isRotating = false;
+            }
+
+            yield return null; // Wait for the next frame
+        }
+
+
+        // Wait for the attack delay before setting isAttacking to false
+        yield return new WaitForSeconds(attackDelay);
+
+        // After the delay, set isAttacking to false
+        isAttacking = false;
+    }
+
 
     private void Patroling()
     {
+        if (isAttacking == true)
+        {
+            return;
+        }
+
+        isWalking = true;
+        isAttacking = false;
+
         if (!walkPointSet) SearchWalkPoint();
 
         if (walkPointSet)
@@ -63,6 +142,13 @@ public class CreatureAI : MonoBehaviour
 
     private void ChasePlayer()
     {
+        if (isAttacking == true)
+        {
+            return;
+        }
+
+        isWalking = true;
+        isAttacking = false;
         agent.SetDestination(player.position);
     }
     private void DestroyEnemy()
