@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    public bool isOpended = false;
+    public bool isOpen = false;
     [SerializeField]
     private bool isRotatingDoor = true;
     [SerializeField]
@@ -13,81 +13,82 @@ public class Door : MonoBehaviour
     [SerializeField]
     private float rotationAmount = 90f;
     [SerializeField]
-    private float forwardDirection = 0f;
-   
-
+    private Vector3 inwardDirection = Vector3.forward;
     private Vector3 startRotation;
-    private Vector3 forward;
 
-    private Coroutine AnimationCoroutine;
+    private Coroutine animationCoroutine;
 
     private void Awake()
     {
         startRotation = transform.rotation.eulerAngles;
-        // "forward" e de fapt spre frame , deci alegem noi un forward (directie)
-        forward = transform.right;
     }
-    public void open(Vector3 UserPositon)
+
+    public void Open(Vector3 userPosition)
     {
-        if (!isOpended)
+        if (!isOpen)
         {
-            if (AnimationCoroutine != null)
-                StopCoroutine(AnimationCoroutine);
+            if (animationCoroutine != null)
+                StopCoroutine(animationCoroutine);
+
             if (isRotatingDoor)
             {
-                float dot = Vector3.Dot(forward, (UserPositon - transform.position).normalized);
-                AnimationCoroutine = StartCoroutine(DoRotationOpen(dot));
+                // Determine if the user is inside or outside
+                Vector3 worldInteriorDirection = transform.TransformDirection(inwardDirection);
+                Vector3 userDirection = (userPosition - transform.position).normalized;
+                float dot = Vector3.Dot(worldInteriorDirection, userDirection);
+
+                animationCoroutine = StartCoroutine(DoRotationOpen(dot > 0)); 
             }
-
-
         }
     }
-    private IEnumerator DoRotationOpen(float forawrdAmount)
+
+    private IEnumerator DoRotationOpen(bool openInward)
     {
         Quaternion startRotation = transform.rotation;
         Quaternion endRotation;
-        if (forawrdAmount >= forwardDirection)
+
+        if (openInward)
         {
-            endRotation = Quaternion.Euler(new Vector3(0, startRotation.y - rotationAmount, 0));
+            endRotation = Quaternion.Euler(new Vector3(0, startRotation.eulerAngles.y - rotationAmount, 0));
         }
         else
         {
-            endRotation = Quaternion.Euler(new Vector3(0, startRotation.y + rotationAmount, 0));
+            endRotation = Quaternion.Euler(new Vector3(0, startRotation.eulerAngles.y + rotationAmount, 0));
         }
 
-        isOpended = true;
+        isOpen = true;
         float time = 0f;
         while (time < 1)
         {
             transform.rotation = Quaternion.Slerp(startRotation, endRotation, time);
-            yield return null; //wait next frame
+            yield return null; // Wait for the next frame
             time += Time.deltaTime * speed;
         }
     }
 
-    public void close()
+    public void Close()
     {
-        if (isOpended)
+        if (isOpen)
         {
-            if (AnimationCoroutine != null)
-                StopCoroutine(AnimationCoroutine);
+            if (animationCoroutine != null)
+                StopCoroutine(animationCoroutine);
             if (isRotatingDoor)
             {
-                AnimationCoroutine = StartCoroutine(DoRotationClose());
+                animationCoroutine = StartCoroutine(DoRotationClose());
             }
         }
     }
 
     private IEnumerator DoRotationClose()
     {
-        Quaternion startrotation = transform.rotation;
-        Quaternion endRotation = Quaternion.Euler(startRotation);
+        Quaternion startRotation = transform.rotation;
+        Quaternion endRotation = Quaternion.Euler(this.startRotation);
 
-        isOpended = false;
+        isOpen = false;
         float time = 0f;
         while (time < 1)
         {
-            transform.rotation = Quaternion.Slerp(startrotation, endRotation, time);
+            transform.rotation = Quaternion.Slerp(startRotation, endRotation, time);
             yield return null;
             time += Time.deltaTime * speed;
         }

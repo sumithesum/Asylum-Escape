@@ -22,14 +22,14 @@ public class PlayerActions : MonoBehaviour
                 if (collider.TryGetComponent(out Door door))
                 {
                     Debug.Log(collider);
-                    if (!door.isOpended)
+                    if (!door.isOpen)
                     {
 
-                        door.open(transform.position);
+                        door.Open(transform.position);
                     }
                     else {
 
-                        door.close();
+                        door.Close();
                     }
                 }
               

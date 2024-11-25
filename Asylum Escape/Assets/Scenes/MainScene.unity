@@ -697,6 +697,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 8445238576857010300, guid: 7503b72438098d745a2241d5b7b4fefb, type: 3}
+      propertyPath: rotationAmount
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8720754285216848898, guid: 7503b72438098d745a2241d5b7b4fefb, type: 3}
+      propertyPath: rotationAmount
+      value: -90
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -768,7 +776,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3849310039254732547, guid: 03b6bafda12944d418941c1a0e442d13, type: 3}
       propertyPath: rotationAmount
-      value: 180
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1978,11 +1986,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db9b6af00c2aa054998950fe6cc8be31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isOpended: 0
+  isOpen: 0
   isRotatingDoor: 1
   speed: 1
   rotationAmount: 180
-  fowardDirection: -1
+  interiorDirection: {x: 0, y: 0, z: 1}
 --- !u!64 &507915766
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2733,11 +2741,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3075063159230190121, guid: 140d308f14d8b9541bc37080c8a2213f, type: 3}
       propertyPath: rotationAmount
-      value: 180
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 3427979181472131884, guid: 140d308f14d8b9541bc37080c8a2213f, type: 3}
       propertyPath: rotationAmount
-      value: -180
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 5067459980597399224, guid: 140d308f14d8b9541bc37080c8a2213f, type: 3}
       propertyPath: m_Layer
@@ -2914,7 +2922,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7765634542843538809, guid: b95c20770a08b1549a9ba34c35f574e6, type: 3}
       propertyPath: rotationAmount
-      value: -90
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3012,11 +3020,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db9b6af00c2aa054998950fe6cc8be31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isOpended: 0
+  isOpen: 0
   isRotatingDoor: 1
   speed: 1
-  rotationAmount: -180
-  fowardDirection: 0
+  rotationAmount: 90
+  interiorDirection: {x: 0, y: 0, z: 1}
 --- !u!4 &899190170 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4322688172531766, guid: 03b6bafda12944d418941c1a0e442d13, type: 3}
@@ -3472,7 +3480,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3849310039254732547, guid: 03b6bafda12944d418941c1a0e442d13, type: 3}
       propertyPath: rotationAmount
-      value: 30
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3790,6 +3798,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 3075063159230190121, guid: 140d308f14d8b9541bc37080c8a2213f, type: 3}
+      propertyPath: rotationAmount
+      value: -90
+      objectReference: {fileID: 0}
     - target: {fileID: 4570605858231619075, guid: 140d308f14d8b9541bc37080c8a2213f, type: 3}
       propertyPath: rotationAmount
       value: 180
@@ -3820,11 +3832,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db9b6af00c2aa054998950fe6cc8be31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isOpended: 0
+  isOpen: 0
   isRotatingDoor: 1
   speed: 1
   rotationAmount: 180
-  fowardDirection: -1
+  interiorDirection: {x: 0, y: 0, z: 1}
 --- !u!1 &1203135719
 GameObject:
   m_ObjectHideFlags: 0
@@ -4315,7 +4327,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7765634542843538809, guid: b95c20770a08b1549a9ba34c35f574e6, type: 3}
       propertyPath: rotationAmount
-      value: -90
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4954,7 +4966,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6575815739723205137, guid: 0f2f9c5303aac26479fc10d223f34183, type: 3}
       propertyPath: rotationAmount
-      value: 180
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5092,7 +5104,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3849310039254732547, guid: 03b6bafda12944d418941c1a0e442d13, type: 3}
       propertyPath: rotationAmount
-      value: 180
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 3849310039254732547, guid: 03b6bafda12944d418941c1a0e442d13, type: 3}
       propertyPath: fowardDirection
@@ -5383,6 +5395,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 8445238576857010300, guid: 7503b72438098d745a2241d5b7b4fefb, type: 3}
+      propertyPath: rotationAmount
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8720754285216848898, guid: 7503b72438098d745a2241d5b7b4fefb, type: 3}
+      propertyPath: rotationAmount
+      value: -90
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5525,6 +5545,14 @@ PrefabInstance:
     - target: {fileID: 6561829032467397934, guid: 7503b72438098d745a2241d5b7b4fefb, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8445238576857010300, guid: 7503b72438098d745a2241d5b7b4fefb, type: 3}
+      propertyPath: rotationAmount
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8720754285216848898, guid: 7503b72438098d745a2241d5b7b4fefb, type: 3}
+      propertyPath: rotationAmount
+      value: -90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6925,7 +6953,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6575815739723205137, guid: 0f2f9c5303aac26479fc10d223f34183, type: 3}
       propertyPath: rotationAmount
-      value: 180
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
