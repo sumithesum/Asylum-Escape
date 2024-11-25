@@ -19,17 +19,17 @@ public class PlayerActions : MonoBehaviour
             foreach (Collider collider in colliderArray)
             {
                 
-                if (collider.TryGetComponent(out Door dor))
+                if (collider.TryGetComponent(out Door door))
                 {
                     Debug.Log(collider);
-                    if (!dor.isOpended)
+                    if (!door.isOpended)
                     {
-                       
-                        dor.open(transform.position);
+
+                        door.open(transform.position);
                     }
                     else {
-                      
-                        dor.close();
+
+                        door.close();
                     }
                 }
               
