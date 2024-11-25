@@ -13,19 +13,19 @@ public class Door : MonoBehaviour
     [SerializeField]
     private float rotationAmount = 90f;
     [SerializeField]
-    private float fowardDirection = 0f;
+    private float forwardDirection = 0f;
    
 
     private Vector3 startRotation;
-    private Vector3 foward;
+    private Vector3 forward;
 
     private Coroutine AnimationCoroutine;
 
     private void Awake()
     {
         startRotation = transform.rotation.eulerAngles;
-        // "foward" e defatp spre frame , deci alegem noi un foward (directie)
-        foward = transform.right;
+        // "forward" e de fapt spre frame , deci alegem noi un forward (directie)
+        forward = transform.right;
     }
     public void open(Vector3 UserPositon)
     {
@@ -35,7 +35,7 @@ public class Door : MonoBehaviour
                 StopCoroutine(AnimationCoroutine);
             if (isRotatingDoor)
             {
-                float dot = Vector3.Dot(foward, (UserPositon - transform.position).normalized);
+                float dot = Vector3.Dot(forward, (UserPositon - transform.position).normalized);
                 AnimationCoroutine = StartCoroutine(DoRotationOpen(dot));
             }
 
@@ -46,7 +46,7 @@ public class Door : MonoBehaviour
     {
         Quaternion startRotation = transform.rotation;
         Quaternion endRotation;
-        if (forawrdAmount >= fowardDirection)
+        if (forawrdAmount >= forwardDirection)
         {
             endRotation = Quaternion.Euler(new Vector3(0, startRotation.y - rotationAmount, 0));
         }
