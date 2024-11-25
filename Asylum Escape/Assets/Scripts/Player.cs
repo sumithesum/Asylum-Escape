@@ -75,4 +75,14 @@ public class Player : MonoBehaviour
         // Controller.isGrounded has problems, sometimes you can jump sometimes u cannot , need to fix
     }
 
+    public float getMovementSpeed()
+    {
+        return _movementSpeed; 
+    }
+
+    public void setMovementSpeed(float value)
+    {
+        _movementSpeed = value;
+    }
+
 }

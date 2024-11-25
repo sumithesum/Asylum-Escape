@@ -1982,7 +1982,7 @@ MonoBehaviour:
   isRotatingDoor: 1
   speed: 1
   rotationAmount: 180
-  fowardDirection: -1
+  forwardDirection: 0
 --- !u!64 &507915766
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3016,7 +3016,7 @@ MonoBehaviour:
   isRotatingDoor: 1
   speed: 1
   rotationAmount: -180
-  fowardDirection: 0
+  forwardDirection: 0
 --- !u!4 &899190170 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4322688172531766, guid: 03b6bafda12944d418941c1a0e442d13, type: 3}
@@ -3824,7 +3824,7 @@ MonoBehaviour:
   isRotatingDoor: 1
   speed: 1
   rotationAmount: 180
-  fowardDirection: -1
+  forwardDirection: 0
 --- !u!1 &1203135719
 GameObject:
   m_ObjectHideFlags: 0
@@ -6455,6 +6455,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8845965481495638725, guid: fdf045280a65bc542a1c7751aa30ff29, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8845965481495638725, guid: fdf045280a65bc542a1c7751aa30ff29, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.186
       objectReference: {fileID: 0}
@@ -6601,6 +6605,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxUseDist: 2
+  crouchingScale: 1.65
 --- !u!1 &1978918196
 GameObject:
   m_ObjectHideFlags: 0
