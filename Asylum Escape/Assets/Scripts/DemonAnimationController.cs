@@ -22,16 +22,6 @@ public class DemonAnimationController : MonoBehaviour
         animator.SetBool("is_walking", _creatureAI.isWalking);
         animator.SetBool("is_attacking", _creatureAI.isAttacking);
 
-        /*if (_creatureAI.isWalking && !animator.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
-        {
-            animator.CrossFade("Walk", 0.1f); // Transition to Walk animation smoothly
-        }
-
-        if (_creatureAI.isAttacking && !animator.GetCurrentAnimatorStateInfo(0).IsName("Punch"))
-        {
-            animator.CrossFade("Punch", 0.1f); // Transition to Attack animation smoothly
-        }*/
-
     }
 }
 
