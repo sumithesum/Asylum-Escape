@@ -18,9 +18,11 @@ public class MainCamera : MonoBehaviour
 
     void Start()
     {
-        // Locks the cursor to the center of the screen;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.None; 
+        Cursor.visible = true; 
+        //// Locks the cursor to the center of the screen;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
     }
 
 
