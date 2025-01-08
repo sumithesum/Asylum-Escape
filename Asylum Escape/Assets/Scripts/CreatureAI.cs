@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -13,8 +14,12 @@ public class CreatureAI : MonoBehaviour
 
     //Patroling
     public Vector3 walkPoint;
-    bool walkPointSet;
+    public Vector3 lastwalkPoint;
+    [SerializeField] public bool walkPointSet;
     public float walkPointRange;
+    private Vector3 lastPosition;
+    public float idleTimer = 0;
+    public float idleTimeThreshold = 5;
 
     //States
     [SerializeField] public float sightRange, attackRange;
@@ -22,11 +27,8 @@ public class CreatureAI : MonoBehaviour
     public bool playerInSightRange, playerInAttackRange;
     public bool isWalking, isAttacking;
 
-
     //Attack parameters
     [SerializeField] public float attackDelay;
-
-    
 
 
     private void Awake()
@@ -39,6 +41,7 @@ public class CreatureAI : MonoBehaviour
     {
         isWalking = true;
         isAttacking = false;
+        lastPosition = transform.position;
     }
 
 
@@ -47,10 +50,24 @@ public class CreatureAI : MonoBehaviour
         //Check for sight and attack range
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+        if (playerInSightRange && Math.Abs(transform.position.y - player.position.y) > 4) playerInSightRange = false;
+        //mai trb o verificare la playerInSightRange ca sa nu vada prin perete
 
         if (!playerInSightRange && !playerInAttackRange) Patroling();
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
         if (playerInSightRange && playerInAttackRange) AttackPlayer();
+
+        if (Vector3.Distance(transform.position, lastPosition) == 0)
+        {
+            idleTimer += Time.deltaTime;
+        }
+        else
+        {
+            idleTimer = 0; 
+        }
+
+        lastPosition = transform.position;
+
     }
 
     private void AttackPlayer()
@@ -62,6 +79,7 @@ public class CreatureAI : MonoBehaviour
 
         isAttacking = true;
         isWalking = false;
+        walkPointSet = false;
 
         // Define Attack behaviour once we have Health System etc.
         StartCoroutine(AttackRoutine());
@@ -117,7 +135,13 @@ public class CreatureAI : MonoBehaviour
         isWalking = true;
         isAttacking = false;
 
-        if (!walkPointSet) SearchWalkPoint();
+        //agent.SetDestination(walkPoint);
+
+        if (idleTimer >= idleTimeThreshold || !walkPointSet || walkPoint == transform.position)
+        {
+            idleTimer = 0f;
+            SearchWalkPoint();
+        }
 
         if (walkPointSet)
             agent.SetDestination(walkPoint);
@@ -131,8 +155,8 @@ public class CreatureAI : MonoBehaviour
     private void SearchWalkPoint()
     {
         //Calculate random point in range
-        float randomZ = Random.Range(-walkPointRange, walkPointRange);
-        float randomX = Random.Range(-walkPointRange, walkPointRange);
+        float randomZ = UnityEngine.Random.Range(-walkPointRange, walkPointRange);
+        float randomX = UnityEngine.Random.Range(-walkPointRange, walkPointRange);
 
         walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
 
@@ -149,6 +173,7 @@ public class CreatureAI : MonoBehaviour
 
         isWalking = true;
         isAttacking = false;
+        walkPointSet = false;
         agent.SetDestination(player.position);
     }
     private void DestroyEnemy()
