@@ -49,12 +49,34 @@ namespace NavKeypad
             panelMesh.material.SetVector("_EmissionColor", screenNormalColor * screenIntensity);
         }
 
+        private void Update()
+        {
+            if (displayingResult || accessWasGranted) return;
 
-        //Gets value from pressedbutton
+            // Detect numeric key presses from the keyboard
+            if (Input.GetKeyDown(KeyCode.Alpha0)) AddInput("0");
+            if (Input.GetKeyDown(KeyCode.Alpha1)) AddInput("1");
+            if (Input.GetKeyDown(KeyCode.Alpha2)) AddInput("2");
+            if (Input.GetKeyDown(KeyCode.Alpha3)) AddInput("3");
+            if (Input.GetKeyDown(KeyCode.Alpha4)) AddInput("4");
+            if (Input.GetKeyDown(KeyCode.Alpha5)) AddInput("5");
+            if (Input.GetKeyDown(KeyCode.Alpha6)) AddInput("6");
+            if (Input.GetKeyDown(KeyCode.Alpha7)) AddInput("7");
+            if (Input.GetKeyDown(KeyCode.Alpha8)) AddInput("8");
+            if (Input.GetKeyDown(KeyCode.Alpha9)) AddInput("9");
+
+            // Optionally handle "enter" or "backspace" keys for validation or clearing
+            if (Input.GetKeyDown(KeyCode.Return)) AddInput("enter");
+            if (Input.GetKeyDown(KeyCode.Backspace)) ClearInput();
+        }
+
+        // Gets value from pressed button (either via mouse click or keyboard)
         public void AddInput(string input)
         {
+            Debug.Log(input);
             audioSource.PlayOneShot(buttonClickedSfx);
             if (displayingResult || accessWasGranted) return;
+
             switch (input)
             {
                 case "enter":
@@ -69,8 +91,8 @@ namespace NavKeypad
                     keypadDisplayText.text = currentInput;
                     break;
             }
-
         }
+
         public void CheckCombo()
         {
             if (int.TryParse(currentInput, out var currentKombo))
@@ -85,10 +107,9 @@ namespace NavKeypad
             {
                 Debug.LogWarning("Couldn't process input for some reason..");
             }
-
         }
 
-        //mainly for animations 
+        // Mainly for animations
         private IEnumerator DisplayResultRoutine(bool granted)
         {
             displayingResult = true;
@@ -101,7 +122,6 @@ namespace NavKeypad
             if (granted) yield break;
             ClearInput();
             panelMesh.material.SetVector("_EmissionColor", screenNormalColor * screenIntensity);
-
         }
 
         private void AccessDenied()
@@ -126,6 +146,5 @@ namespace NavKeypad
             panelMesh.material.SetVector("_EmissionColor", screenGrantedColor * screenIntensity);
             audioSource.PlayOneShot(accessGrantedSfx);
         }
-
     }
 }

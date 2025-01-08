@@ -1,5 +1,7 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using Unity.VisualScripting;
 using UnityEngine;
 namespace NavKeypad
 {
@@ -14,7 +16,6 @@ namespace NavKeypad
         [Header("Component References")]
         [SerializeField] private Keypad keypad;
 
-
         public void PressButton()
         {
             if (!moving)
@@ -25,6 +26,11 @@ namespace NavKeypad
         }
         private bool moving;
 
+        private void OnMouseDown()
+        {
+            Debug.Log("Clicked me!");
+            
+        }
         private IEnumerator MoveSmooth()
         {
 
