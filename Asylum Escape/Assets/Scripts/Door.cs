@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject neightboor = null;
     public bool isOpen = false;
     [SerializeField]
     private bool isRotatingDoor = true;
@@ -21,6 +23,23 @@ public class Door : MonoBehaviour
     private void Awake()
     {
         startRotation = transform.rotation.eulerAngles;
+        Transform parent = transform.parent;
+
+        if (parent != null)
+        {
+            
+            foreach (Transform sibling in parent)
+            {
+                
+                if (sibling != transform && !sibling.gameObject.name.ToLower().EndsWith("frame") )
+                {
+                    neightboor = sibling.gameObject;
+
+                }
+            }
+        }
+
+
     }
 
     public void Open(Vector3 userPosition)
@@ -39,6 +58,8 @@ public class Door : MonoBehaviour
 
                 animationCoroutine = StartCoroutine(DoRotationOpen(dot > 0)); 
             }
+            if (neightboor != null)
+                neightboor.GetComponent<Door>().Open(userPosition);
         }
     }
 
@@ -76,6 +97,8 @@ public class Door : MonoBehaviour
             {
                 animationCoroutine = StartCoroutine(DoRotationClose());
             }
+            if (neightboor != null)
+                neightboor.GetComponent<Door>().Close();
         }
     }
 

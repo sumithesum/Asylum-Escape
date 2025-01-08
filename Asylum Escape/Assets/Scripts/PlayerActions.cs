@@ -36,6 +36,7 @@ public class PlayerActions : MonoBehaviour
 
                         door.Close();
                     }
+                    break;
                 }
 
             }
