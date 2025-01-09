@@ -1,9 +1,13 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Door : MonoBehaviour
 {
+    [SerializeField]
+    public bool isLockeble = false;
+    [SerializeField]
+    public GameObject neightboor = null;
     public bool isOpen = false;
     [SerializeField]
     private bool isRotatingDoor = true;
@@ -15,37 +19,73 @@ public class Door : MonoBehaviour
     [SerializeField]
     private Vector3 inwardDirection = Vector3.forward;
     private Vector3 startRotation;
+    public bool isLocked = false;
 
     private Coroutine animationCoroutine;
 
     private void Awake()
     {
         startRotation = transform.rotation.eulerAngles;
+        Transform parent = transform.parent;
+
+        if (parent != null)
+        {
+            
+            foreach (Transform sibling in parent)
+            {
+                
+                if (sibling != transform && !sibling.gameObject.name.ToLower().EndsWith("frame") )
+                {
+                    neightboor = sibling.gameObject;
+
+                }
+            }
+        }
+
+
     }
 
     public void Open(Vector3 userPosition)
     {
-        if (!isOpen)
+        if (!isOpen && !isLocked )
         {
             if (animationCoroutine != null)
                 StopCoroutine(animationCoroutine);
-
+            Vector3 worldInteriorDirection = transform.TransformDirection(inwardDirection);
+            Vector3 userDirection = (userPosition - transform.position).normalized;
+            float dot = Vector3.Dot(worldInteriorDirection, userDirection);
+           
             if (isRotatingDoor)
             {
-                // Determine if the user is inside or outside
-                Vector3 worldInteriorDirection = transform.TransformDirection(inwardDirection);
-                Vector3 userDirection = (userPosition - transform.position).normalized;
-                float dot = Vector3.Dot(worldInteriorDirection, userDirection);
-
                 animationCoroutine = StartCoroutine(DoRotationOpen(dot > 0)); 
             }
+
+            if (neightboor != null)
+                neightboor.GetComponent<Door>().Open(userPosition);
+
+            
+
+                    
         }
+    }
+
+    public void Lock()
+    {
+        isLocked = true;
+        neightboor.GetComponent<Door>().isLocked = true;
+    }
+    public void unLock()
+    {
+        isLocked = false;
+        neightboor.GetComponent<Door>().isLocked = false;
     }
 
     private IEnumerator DoRotationOpen(bool openInward)
     {
         Quaternion startRotation = transform.rotation;
         Quaternion endRotation;
+
+     
 
         if (openInward)
         {
@@ -76,6 +116,9 @@ public class Door : MonoBehaviour
             {
                 animationCoroutine = StartCoroutine(DoRotationClose());
             }
+            if (neightboor != null)
+                neightboor.GetComponent<Door>().Close();
+
         }
     }
 

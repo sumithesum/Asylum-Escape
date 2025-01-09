@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using NavKeypad;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ public class PlayerActions : MonoBehaviour
 
     private bool isCrouching = false;
 
+    public GameObject keypadPanel;
     public void OnUse()
     {
 
@@ -34,6 +36,7 @@ public class PlayerActions : MonoBehaviour
 
                         door.Close();
                     }
+                    break;
                 }
 
             }

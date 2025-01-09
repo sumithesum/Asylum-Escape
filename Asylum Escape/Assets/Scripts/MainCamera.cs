@@ -13,12 +13,17 @@ public class MainCamera : MonoBehaviour
     [SerializeField]
     private Transform _playerBody;
 
+    [Header("Raycasting")]
+    public LayerMask clickableLayer;
+
     private float _xRotation = 0f;
     private float _yRotation = 0f;
 
     void Start()
     {
-        // Locks the cursor to the center of the screen;
+        //Cursor.lockState = CursorLockMode.None; 
+        //Cursor.visible = true; 
+        ////// Locks the cursor to the center of the screen;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -50,5 +55,20 @@ public class MainCamera : MonoBehaviour
     void UpdatePosition()
     {
         transform.position = _playerBody.transform.Find("POVLocation").gameObject.transform.position;
+      
+        if (Input.GetMouseButtonDown(0)) 
+        {
+            Ray ray = new Ray(transform.position, transform.forward); 
+
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, clickableLayer))
+            {
+                Debug.Log($"Hit object: {hit.collider.gameObject.name} at position: {hit.point}");
+
+            }
+            else
+            {
+                Debug.Log("No object hit");
+            }
+        }
     }
 }
