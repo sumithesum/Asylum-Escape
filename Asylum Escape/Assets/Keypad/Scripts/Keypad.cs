@@ -49,6 +49,24 @@ namespace NavKeypad
             panelMesh.material.SetVector("_EmissionColor", screenNormalColor * screenIntensity);
         }
 
+        public void openDoor()
+        {
+            Collider[] colliderArray = Physics.OverlapSphere(transform.position, 2f);
+            foreach (Collider collider in colliderArray)
+            {
+
+                if (collider.TryGetComponent(out Door door))
+                {
+                    Debug.Log(collider);
+                    if (!door.isOpen)
+                    {
+
+                        door.unLock();
+                    }
+                }
+
+            }
+        }
         private void Update()
         {
             if (displayingResult || accessWasGranted) return;
