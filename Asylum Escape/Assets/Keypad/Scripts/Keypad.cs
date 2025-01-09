@@ -57,10 +57,9 @@ namespace NavKeypad
 
                 if (collider.TryGetComponent(out Door door))
                 {
-                    Debug.Log(collider);
+                    Debug.Log($"Name door:{door.name}");
                     if (!door.isOpen)
                     {
-
                         door.unLock();
                     }
                 }
