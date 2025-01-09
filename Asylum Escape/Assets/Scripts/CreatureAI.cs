@@ -50,24 +50,8 @@ public class CreatureAI : MonoBehaviour
         //Check for sight and attack range
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
-        //if (playerInSightRange && Math.Abs(transform.position.y - player.position.y) > 4) playerInSightRange = false;
-        //if (playerInSightRange)
-        //{
-        //    float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        //    Vector3 directionToPlayer = (player.position - transform.position).normalized;
-        //    if (Physics.Raycast(transform.position, directionToPlayer, out RaycastHit hit, sightRange, whatIsGround | whatIsPlayer))
-        //    {
-        //        if (hit.collider.name.StartsWith("Door") || hit.collider.name.StartsWith("Hall") || hit.collider.name.StartsWith("Wood"))
-        //        {
-        //            playerInSightRange = false;
-        //        }
-        //    }
-        //}
-        //Debug.Log(agent.pathStatus);
-        //if (playerInSightRange && agent.pathStatus == NavMeshPathStatus.PathPartial)
-        //{
-        //    playerInSightRange = false;
-        //}
+        if (playerInSightRange && Math.Abs(transform.position.y - player.position.y) > 4) playerInSightRange = false;
+        //mai trb o verificare la playerInSightRange ca sa nu vada prin perete
 
         if (!playerInSightRange && !playerInAttackRange) Patroling();
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
@@ -140,7 +124,7 @@ public class CreatureAI : MonoBehaviour
         isAttacking = false;
     }
 
-    //cred ca trebuie schimbate niste variabile si facute enum
+
     private void Patroling()
     {
         if (isAttacking == true)
@@ -151,6 +135,8 @@ public class CreatureAI : MonoBehaviour
         isWalking = true;
         isAttacking = false;
 
+        //agent.SetDestination(walkPoint);
+
         if (idleTimer >= idleTimeThreshold || !walkPointSet || walkPoint == transform.position)
         {
             idleTimer = 0f;
@@ -159,13 +145,6 @@ public class CreatureAI : MonoBehaviour
 
         if (walkPointSet)
             agent.SetDestination(walkPoint);
-
-        //Debug.Log(agent.pathStatus);
-        if (agent.pathStatus == NavMeshPathStatus.PathPartial)
-        {
-            walkPointSet = false;
-            SearchWalkPoint();
-        }
 
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
@@ -195,7 +174,6 @@ public class CreatureAI : MonoBehaviour
         isWalking = true;
         isAttacking = false;
         walkPointSet = false;
-
         agent.SetDestination(player.position);
     }
     private void DestroyEnemy()
