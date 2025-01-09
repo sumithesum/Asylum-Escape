@@ -5,9 +5,7 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     [SerializeField]
-    public bool isLockeble = false;
-    [SerializeField]
-    public GameObject neightboor = null;
+    private GameObject neightboor = null;
     public bool isOpen = false;
     [SerializeField]
     private bool isRotatingDoor = true;
@@ -19,7 +17,6 @@ public class Door : MonoBehaviour
     [SerializeField]
     private Vector3 inwardDirection = Vector3.forward;
     private Vector3 startRotation;
-    public bool isLocked = false;
 
     private Coroutine animationCoroutine;
 
@@ -47,45 +44,29 @@ public class Door : MonoBehaviour
 
     public void Open(Vector3 userPosition)
     {
-        if (!isOpen && !isLocked )
+        if (!isOpen)
         {
             if (animationCoroutine != null)
                 StopCoroutine(animationCoroutine);
-            Vector3 worldInteriorDirection = transform.TransformDirection(inwardDirection);
-            Vector3 userDirection = (userPosition - transform.position).normalized;
-            float dot = Vector3.Dot(worldInteriorDirection, userDirection);
-           
+
             if (isRotatingDoor)
             {
+                // Determine if the user is inside or outside
+                Vector3 worldInteriorDirection = transform.TransformDirection(inwardDirection);
+                Vector3 userDirection = (userPosition - transform.position).normalized;
+                float dot = Vector3.Dot(worldInteriorDirection, userDirection);
+
                 animationCoroutine = StartCoroutine(DoRotationOpen(dot > 0)); 
             }
-
             if (neightboor != null)
                 neightboor.GetComponent<Door>().Open(userPosition);
-
-            
-
-                    
         }
-    }
-
-    public void Lock()
-    {
-        isLocked = true;
-        neightboor.GetComponent<Door>().isLocked = true;
-    }
-    public void unLock()
-    {
-        isLocked = false;
-        neightboor.GetComponent<Door>().isLocked = false;
     }
 
     private IEnumerator DoRotationOpen(bool openInward)
     {
         Quaternion startRotation = transform.rotation;
         Quaternion endRotation;
-
-     
 
         if (openInward)
         {
@@ -118,7 +99,6 @@ public class Door : MonoBehaviour
             }
             if (neightboor != null)
                 neightboor.GetComponent<Door>().Close();
-
         }
     }
 
