@@ -104,9 +104,9 @@ public class CreatureAI : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
 
             // Check if the rotation is complete (or close enough to be considered done)
-            //print(targetRotation);
-            //print(transform.rotation);
-            //print(Quaternion.Angle(transform.rotation, targetRotation));
+            print(targetRotation);
+            print(transform.rotation);
+            print(Quaternion.Angle(transform.rotation, targetRotation));
 
             if (Quaternion.Angle(transform.rotation, targetRotation) < 1f)
             {
