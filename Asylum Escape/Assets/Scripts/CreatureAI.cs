@@ -19,7 +19,17 @@ public class CreatureAI : MonoBehaviour
     public float walkPointRange;
     private Vector3 lastPosition;
     public float idleTimer = 0;
-    public float idleTimeThreshold = 5;
+    private float idleTimeThreshold = 5;
+
+    public float idleTimer2 = 0;
+    private float idleTimeThreshold2 = 30;
+    private Vector3 playerVisionPoint = new Vector3(0, 0.5f, 0);
+    private Vector3 demonVisionPoint = new Vector3(0, 1, 0);
+    public float totalDistanceTraveled = 0f;
+    public float floor = 0;
+
+
+    private Vector3 fostaPozitie;
 
     //States
     [SerializeField] public float sightRange, attackRange;
@@ -42,48 +52,105 @@ public class CreatureAI : MonoBehaviour
         isWalking = true;
         isAttacking = false;
         lastPosition = transform.position;
+        fostaPozitie = transform.position;
     }
 
 
     private void Update()
     {
-        //Check for sight and attack range
-        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
-        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
-        //if (playerInSightRange && Math.Abs(transform.position.y - player.position.y) > 4) playerInSightRange = false;
-        //if (playerInSightRange)
-        //{
-        //    float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        //    Vector3 directionToPlayer = (player.position - transform.position).normalized;
-        //    if (Physics.Raycast(transform.position, directionToPlayer, out RaycastHit hit, sightRange, whatIsGround | whatIsPlayer))
-        //    {
-        //        if (hit.collider.name.StartsWith("Door") || hit.collider.name.StartsWith("Hall") || hit.collider.name.StartsWith("Wood"))
-        //        {
-        //            playerInSightRange = false;
-        //        }
-        //    }
-        //}
-        //Debug.Log(agent.pathStatus);
-        //if (playerInSightRange && agent.pathStatus == NavMeshPathStatus.PathPartial)
-        //{
-        //    playerInSightRange = false;
-        //}
+        CheckSightAndAttackRange();
 
         if (!playerInSightRange && !playerInAttackRange) Patroling();
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
         if (playerInSightRange && playerInAttackRange) AttackPlayer();
 
+        ResolvePotentialStuck();
+
+    }
+
+    private void CheckSightAndAttackRange()
+    {
+        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+
+        //aici am incercat sa fac vederea cu un offset
+        //if (playerInSightRange)
+        //{
+        //    float distanceToPlayer = Vector3.Distance(transform.position + demonVisionPoint, player.position + playerVisionPoint);
+        //    Vector3 directionToPlayer = ((player.position + playerVisionPoint) - (transform.position + demonVisionPoint)).normalized;
+        //    if (Physics.Raycast(transform.position + demonVisionPoint, directionToPlayer, out RaycastHit hit, sightRange, whatIsGround | whatIsPlayer))
+        //    {
+        //        Debug.Log(hit.collider.name);
+        //        if (!hit.collider.name.StartsWith("Player"))
+        //        {
+        //            playerInSightRange = false;
+        //        }
+        //    }
+        //}
+
+        if (playerInSightRange)
+        {
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+            Vector3 directionToPlayer = (player.position - transform.position).normalized;
+            if (Physics.Raycast(transform.position, directionToPlayer, out RaycastHit hit, sightRange, whatIsGround | whatIsPlayer))
+            {
+                if (hit.collider.name.StartsWith("Door") || hit.collider.name.StartsWith("Hall") || hit.collider.name.StartsWith("Wood"))
+                {
+                    playerInSightRange = false;
+                }
+            }
+        }
+
+        if (playerInSightRange && agent.pathStatus == NavMeshPathStatus.PathPartial)
+        {
+            playerInSightRange = false;
+        }
+        if (playerInSightRange && agent.hasPath == false)
+        {
+            playerInSightRange = false;
+        }
+    }
+
+    private void ResolvePotentialStuck()
+    {
         if (Vector3.Distance(transform.position, lastPosition) == 0)
         {
             idleTimer += Time.deltaTime;
         }
         else
         {
-            idleTimer = 0; 
+            idleTimer = 0;
         }
 
         lastPosition = transform.position;
+        idleTimer2 += Time.deltaTime;
 
+        if (idleTimer2 >= idleTimeThreshold2)
+        {
+            idleTimer2 = 0f;
+            totalDistanceTraveled = Vector3.Distance(fostaPozitie, transform.position);
+            fostaPozitie = transform.position;
+
+            if (totalDistanceTraveled < 10)
+            {
+                agent.enabled = false;
+                transform.position = new Vector3(1, floor * 5, -2);
+                agent.enabled = true;
+                floor = 1 - floor;
+            }
+        }
+
+        if (idleTimer >= idleTimeThreshold)
+        {
+            idleTimer = 0f;
+            idleTimer2 = 0f;
+            fostaPozitie = transform.position;
+
+            agent.enabled = false;
+            transform.position = new Vector3(1, floor * 5, -2);
+            agent.enabled = true;
+            floor = 1 - floor;
+        }
     }
 
     private void AttackPlayer()
@@ -103,7 +170,7 @@ public class CreatureAI : MonoBehaviour
 
     private IEnumerator AttackRoutine()
     {
-        float rotationSpeed = 10f; 
+        float rotationSpeed = 10f;
         bool isRotating = true;
 
         while (isRotating)
@@ -140,7 +207,7 @@ public class CreatureAI : MonoBehaviour
         isAttacking = false;
     }
 
-    //cred ca trebuie schimbate niste variabile si facute enum
+    //trebuie schimbate niste variabile si facute enum
     private void Patroling()
     {
         if (isAttacking == true)
@@ -151,7 +218,7 @@ public class CreatureAI : MonoBehaviour
         isWalking = true;
         isAttacking = false;
 
-        if (idleTimer >= idleTimeThreshold || !walkPointSet || walkPoint == transform.position)
+        if (!walkPointSet || walkPoint == transform.position)
         {
             idleTimer = 0f;
             SearchWalkPoint();
@@ -160,7 +227,6 @@ public class CreatureAI : MonoBehaviour
         if (walkPointSet)
             agent.SetDestination(walkPoint);
 
-        //Debug.Log(agent.pathStatus);
         if (agent.pathStatus == NavMeshPathStatus.PathPartial)
         {
             walkPointSet = false;
