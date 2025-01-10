@@ -8482,7 +8482,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1145144421
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9400,7 +9400,9 @@ MonoBehaviour:
   walkPointSet: 0
   walkPointRange: 10
   idleTimer: 0
-  idleTimeThreshold: 5
+  idleTimer2: 0
+  totalDistanceTraveled: 0
+  floor: 0
   sightRange: 20
   attackRange: 2
   playerInSightRange: 0
