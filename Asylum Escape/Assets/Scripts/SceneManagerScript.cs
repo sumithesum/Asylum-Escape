@@ -12,7 +12,6 @@ public class SceneManagerScript : MonoBehaviour
 
     public void LoadScene(int sceneId)
     {
-        //SceneManager.LoadScene(sceneName);
         LoadingScreen.SetActive(true);
         StartCoroutine(LoadSceneAsync(sceneId));
     }
