@@ -15,9 +15,9 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.3433962, g: 0.3433962, b: 0.3433962, a: 1}
+  m_FogColor: {r: 0.11698109, g: 0.11698109, b: 0.11698109, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.035
+  m_FogDensity: 0.1
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0, g: 0, b: 0, a: 1}
@@ -277,6 +277,11 @@ Transform:
 Transform:
   m_CorrespondingSourceObject: {fileID: 4447383728893956, guid: 140d308f14d8b9541bc37080c8a2213f, type: 3}
   m_PrefabInstance: {fileID: 697353337}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &36942741 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1197638976782496414, guid: fdf045280a65bc542a1c7751aa30ff29, type: 3}
+  m_PrefabInstance: {fileID: 1914081314}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &47345018
 GameObject:
@@ -11397,7 +11402,7 @@ Transform:
   m_GameObject: {fileID: 1263867919}
   serializedVersion: 2
   m_LocalRotation: {x: -0.08172517, y: -0, z: -0, w: 0.9966549}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.25, z: 0}
   m_LocalScale: {x: 0.7, y: 0.8, z: 0.75}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11417,7 +11422,7 @@ Light:
   m_Color: {r: 0.94716984, g: 0.7704718, b: 0.570089, a: 1}
   m_Intensity: 1.2
   m_Range: 30
-  m_SpotAngle: 40
+  m_SpotAngle: 45
   m_InnerSpotAngle: 1
   m_CookieSize: 10
   m_Shadows:
@@ -16431,6 +16436,10 @@ PrefabInstance:
       propertyPath: m_UseGravity
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5629332716661523151, guid: fdf045280a65bc542a1c7751aa30ff29, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 6568392313356644735, guid: fdf045280a65bc542a1c7751aa30ff29, type: 3}
       propertyPath: m_Name
       value: Player
@@ -16506,6 +16515,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6568392313356644735, guid: fdf045280a65bc542a1c7751aa30ff29, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1964898224}
+    - targetCorrespondingSourceObject: {fileID: 6568392313356644735, guid: fdf045280a65bc542a1c7751aa30ff29, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1964898226}
+    - targetCorrespondingSourceObject: {fileID: 1197638976782496414, guid: fdf045280a65bc542a1c7751aa30ff29, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1914081319}
   m_SourcePrefab: {fileID: 100100000, guid: fdf045280a65bc542a1c7751aa30ff29, type: 3}
 --- !u!4 &1914081317 stripped
 Transform:
@@ -16517,6 +16532,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5629332716661523151, guid: fdf045280a65bc542a1c7751aa30ff29, type: 3}
   m_PrefabInstance: {fileID: 1914081314}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1914081319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 36942741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63e92b2ced9c10d49afed90ea81a12e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerObject: {fileID: 1964898225}
+  Amount: 0.003
+  Frequency: 35
+  Smooth: 70
 --- !u!4 &1915709568 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4546697730940662, guid: b95c20770a08b1549a9ba34c35f574e6, type: 3}
@@ -16888,7 +16919,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxUseDist: 2
   crouchingScale: 1.65
+  isCrouching: 0
   keypadPanel: {fileID: 0}
+--- !u!114 &1964898225 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1784692488917635589, guid: fdf045280a65bc542a1c7751aa30ff29, type: 3}
+  m_PrefabInstance: {fileID: 1914081314}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1964898222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e67c19200da9ae4bbb2cfb97bf614de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1964898226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1964898222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95f32bb1ebcc3c74fb92fc281ad96695, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerObject: {fileID: 1964898225}
+  footStepsSounds:
+  - {fileID: 8300000, guid: b993df4a93c1d304ab19d8b2eb88c9a5, type: 3}
+  - {fileID: 8300000, guid: 5c9bdbce37b06a24fa6ea793bcfd1907, type: 3}
+  - {fileID: 8300000, guid: 0909de896e9029541b92ae05fe15e4b6, type: 3}
+  - {fileID: 8300000, guid: 6ad0cf00f050bee41a2dee098475dc78, type: 3}
+  - {fileID: 8300000, guid: 7ca5a9710db4327439c9f8cb8204615e, type: 3}
+  - {fileID: 8300000, guid: 14ae706fef2303e4cb71112dbd5d250b, type: 3}
+  - {fileID: 8300000, guid: b995bc1775ea83b4b8f861763e9a1424, type: 3}
+  - {fileID: 8300000, guid: d15f7338d693f0343843a6b9096d27f6, type: 3}
+  footSpeed: 0.4
+  coroutineCooldown: 0.3
 --- !u!1 &1966670228
 GameObject:
   m_ObjectHideFlags: 0

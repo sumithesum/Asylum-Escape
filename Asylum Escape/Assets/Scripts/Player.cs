@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     private CharacterController _controller;
     private Vector3 _velocity;
-    private bool _isGrounded;
+    public bool _isGrounded;
 
     [SerializeField]
     private float _movementSpeed = 3.8f;
@@ -83,6 +83,11 @@ public class Player : MonoBehaviour
     public void setMovementSpeed(float value)
     {
         _movementSpeed = value;
+    }
+
+    public Vector3 getVelocity()
+    {
+        return _controller.velocity; 
     }
 
 }
