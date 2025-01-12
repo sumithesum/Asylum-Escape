@@ -72,14 +72,12 @@ public class Door : MonoBehaviour
     public void Lock()
     {
         isLocked = true;
-        if(neightboor != null)
-            neightboor.GetComponent<Door>().isLocked = true;
+        neightboor.GetComponent<Door>().isLocked = true;
     }
     public void unLock()
     {
         isLocked = false;
-        if (neightboor != null)
-            neightboor.GetComponent<Door>().isLocked = false;
+        neightboor.GetComponent<Door>().isLocked = false;
     }
 
     private IEnumerator DoRotationOpen(bool openInward)

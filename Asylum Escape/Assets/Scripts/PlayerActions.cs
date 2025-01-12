@@ -8,7 +8,7 @@ public class PlayerActions : MonoBehaviour
     [SerializeField] private float MaxUseDist = 2f;
     [SerializeField] private float crouchingScale = 1.65f;
 
-    public bool isCrouching = false;
+    private bool isCrouching = false;
 
     public GameObject keypadPanel;
 
@@ -64,12 +64,10 @@ public class PlayerActions : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             Crouch(true);
-            isCrouching = true;
         }
         else if (Input.GetKeyUp(KeyCode.LeftControl))
         {
             Crouch(false);
-            isCrouching = false;
         }
 
     }
