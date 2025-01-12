@@ -7,13 +7,13 @@ public class Inventory
     private List<Item> itemList;
 
     [SerializeField]
-    private int size = 5;
+    static public int size = 5;
 
     public Inventory()
     {
         itemList = new List<Item>();
         for(int i = 0; i < size; i++)
-            addItem(new Item { itemType = Item.ItemType.Null, stack = 1 });
+            addItem(new Item(Item.ItemType.Null));
         
     }
 
@@ -26,5 +26,20 @@ public class Inventory
     public List<Item> GetItems()
     {
         return itemList;
+    }
+
+    public void setItem(int poz , Item item)
+    {
+        itemList[poz] = item;
+    }
+
+    public string printInv()
+    {
+        string s = "";
+        foreach(Item i in itemList)
+        {
+            s += i.itemType + "     ";
+        }
+        return s;
     }
 }

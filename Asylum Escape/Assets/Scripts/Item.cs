@@ -15,8 +15,22 @@ public class Item
         Null = 1
         
     }
+    public Item(ItemType type)
+    {
+        itemType = type;
+        stack = 1;
+    }
 
     public ItemType itemType;
     public int stack;
 
+    public Sprite GetSprite()
+    {
+        switch (itemType)
+        {
+            default:
+            case ItemType.Key: return ItemAssestsManager.Instance.keySprite;
+            case ItemType.Null: return ItemAssestsManager.Instance.Null;
+        }
+    }
 }

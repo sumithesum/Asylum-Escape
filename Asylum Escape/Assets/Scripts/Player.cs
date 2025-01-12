@@ -13,20 +13,14 @@ public class Player : MonoBehaviour
 
     private float _jumpHeight = 0.45f;
     private float _gravityValue = -9.8f;
-    [SerializeField]
-    private UI_Inventory uiInventory;
-    private Inventory inventory;
-
-    private void Awake()
-    {
-        inventory = new Inventory();
-        uiInventory.setInventory(inventory);
-    }
+   
 
     private void Start()
     {
         _controller = gameObject.AddComponent<CharacterController>();
         transform.position = new Vector3(0f, 0.76f, -6.0f);
+
+      
     }
 
     void Update()
