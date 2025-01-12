@@ -11,23 +11,10 @@ public class PlayerActions : MonoBehaviour
     public bool isCrouching = false;
 
     public GameObject keypadPanel;
-
-    [SerializeField]
-    private UI_Inventory uiInventory;
-    private Inventory inventory;
-
-
     public void OnUse()
     {
 
     }
-
-    public void Start()
-    {
-        inventory = new Inventory();
-        uiInventory.setInventory(inventory);
-    }
-
     public void Update()
     {
         if (Input.GetKeyUp(KeyCode.E))
@@ -51,12 +38,6 @@ public class PlayerActions : MonoBehaviour
                     }
                     break;
                 }
-                else if (collider.tag == "Item")
-                {
-                    uiInventory.UpdateIventory(collider.name);
-                    Destroy(collider);
-                }
-
 
             }
         }
