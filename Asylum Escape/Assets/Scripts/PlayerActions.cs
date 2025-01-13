@@ -51,12 +51,11 @@ public class PlayerActions : MonoBehaviour
                     }
                     break;
                 }
-                else if (collider.tag == "Item")
-                {
-                    uiInventory.UpdateIventory(collider.name);
-                    Destroy(collider);
-                }
-
+                else
+                    if (collider.tag == "Item" && uiInventory.UpdateIventory(collider.name))
+                        Destroy(collider.gameObject);
+                    
+                
 
             }
         }

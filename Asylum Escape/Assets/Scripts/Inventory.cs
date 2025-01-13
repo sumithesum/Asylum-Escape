@@ -23,6 +23,11 @@ public class Inventory
         itemList.Add(item);
     } 
     
+    public void elemineteItem(int position)
+    {
+        itemList[position] = new Item(Item.ItemType.Null);
+    }
+
     public List<Item> GetItems()
     {
         return itemList;
