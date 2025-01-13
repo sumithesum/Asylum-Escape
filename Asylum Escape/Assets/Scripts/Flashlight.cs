@@ -6,30 +6,37 @@ using UnityEngine.Experimental.GlobalIllumination;
 public class Flashlight : MonoBehaviour
 {
     public GameObject flashlight;
+    public bool exists = false;
 
     [SerializeField] private AudioClip turnOn;
     [SerializeField] private AudioClip turnOff;
     [SerializeField] private AudioClip reloadBattery;
     [SerializeField] private AudioClip wrongReload;
-
+    [SerializeField] private GameObject body;
+    [SerializeField] private UI_Inventory inventory;
 
     [SerializeField] private float lifetime = 60.0f; // 60 secunde dureaza cu 2 baterii
 
     public bool on, off;    
-    public int batteries = 1;
+    public int batteries = 0;
 
     private float flickeringDuration = 1.0f;
+    private Coroutine currentCoroutine = null;
 
     void Start()
     {
         off = true;
         flashlight.GetComponent<Light>().enabled = false;
+        body.active = false;
         // flashlight.SetActive(false);
     }
 
 
     void Update()
     {
+        if (!exists)
+            return;
+
         if (off && Input.GetButtonDown("F"))
         {
             flashlight.GetComponent<Light>().enabled = true;
@@ -50,12 +57,18 @@ public class Flashlight : MonoBehaviour
         if (on)
         {
             lifetime -= 1 * Time.deltaTime;
+            flashlight.GetComponent<Light>().enabled = true;
+        }
+
+        if (off && currentCoroutine == null)
+        {
+            flashlight.GetComponent<Light>().enabled = false;
         }
 
         if (lifetime <= 0)
         {
             // Lanterna s-a descarcat
-            StartCoroutine(FlickerLight());
+            currentCoroutine = StartCoroutine(FlickerLight());
 
             // flashlight.GetComponent<Light>().enabled = false;
             on = false;
@@ -75,6 +88,7 @@ public class Flashlight : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(reloadBattery);
                 batteries -= 1;
+                inventory.removeBattery();
                 lifetime += 30;
             } 
             else
@@ -108,6 +122,13 @@ public class Flashlight : MonoBehaviour
         flashlight.GetComponent<Light>().intensity = 1.2f;
         flashlight.GetComponent<Light>().enabled = false;
 
+        currentCoroutine = null;
+
+    }
+
+    public void showBody()
+    {
+        body.active = true;
     }
 
 }

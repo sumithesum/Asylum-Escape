@@ -16,5 +16,7 @@ public class ItemAssestsManager : MonoBehaviour
     [SerializeField]
     public Sprite keySprite;
     [SerializeField]
+    public Sprite escapeKeySprite;
+    [SerializeField]
     public Sprite batterySprite;
 }

@@ -8,7 +8,8 @@ public class UI_Inventory : MonoBehaviour
     private Inventory inventory;
     private Transform itemSlotContainer;
     private Transform itemSlotTemplete;
-    private int selected = 0;
+    [SerializeField] private Flashlight flashlight;
+    public int selected = 0;
 
     private void Update()
     {
@@ -25,7 +26,7 @@ public class UI_Inventory : MonoBehaviour
             else if (selected > Inventory.size - 1)
                 selected = 0;
 
-            refresInventory();
+            refreshInventory();
         }
         
     }
@@ -41,7 +42,7 @@ public class UI_Inventory : MonoBehaviour
     public void setInventory(Inventory inventory)
     {
         this.inventory = inventory;
-        refresInventory();
+        refreshInventory();
     }
 
     public void UpdateIventory(string name)
@@ -58,16 +59,44 @@ public class UI_Inventory : MonoBehaviour
                     inventory.setItem(selected, new Item(Item.ItemType.Key));
                     break;
                 }
+            case "Escape Key":
+                {
+                    inventory.setItem(selected, new Item(Item.ItemType.EscapeKey));
+                    break;
+                }
+            case "Battery":
+                {
+                    inventory.setItem(selected, new Item(Item.ItemType.Battery));
+                    flashlight.batteries += 1; 
+                    break;
+                }
+            case "FlashlightItem":
+                {
+                    flashlight.exists = true;
+                    flashlight.showBody();
+                    break;
+                }
         }
-        refresInventory();
+        refreshInventory();
         print(inventory.printInv());
     }
 
+    public void removeBattery()
+    {
+        inventory.removeBattery();
+        refreshInventory();
+    }
 
-    public void refresInventory()
+    public void removeKey()
+    {
+        inventory.removeKey(selected);
+        refreshInventory();
+    }
+
+    public void refreshInventory()
     {
         int poz = 0;
-        float cellSize = 300;
+        float cellSize = 180;
         Vector2 defaultSize = new Vector2(200, 200); 
         Vector2 selectedSize = new Vector2(240, 230); 
 
@@ -86,7 +115,7 @@ public class UI_Inventory : MonoBehaviour
             }
 
             
-            itemSlotTransform.anchoredPosition = new Vector2(poz * cellSize - 600f, -20);
+            itemSlotTransform.anchoredPosition = new Vector2(poz * cellSize - 600f, 0);
 
             
             RectTransform imageTransform = itemSlotTransform.Find("Image").GetComponent<RectTransform>();
