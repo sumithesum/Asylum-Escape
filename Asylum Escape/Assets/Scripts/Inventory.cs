@@ -85,6 +85,14 @@ public class Inventory
         return false;
     }
 
+    public bool hasEscapeKey(int poz)
+    {
+        if (itemList[poz].itemType == Item.ItemType.EscapeKey)
+            return true;
+
+        return false;
+    }
+
     public void removeKey(int poz)
     {
         if (itemList[poz].itemType == Item.ItemType.Key)
@@ -101,5 +109,13 @@ public class Inventory
             }
         }
         */
+    }
+
+    public void removeEscapeKey(int poz)
+    {
+        if (itemList[poz].itemType == Item.ItemType.EscapeKey)
+        {
+            itemList[poz].itemType = Item.ItemType.Null;
+        }
     }
 }
