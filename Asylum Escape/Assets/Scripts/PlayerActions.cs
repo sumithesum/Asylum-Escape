@@ -30,6 +30,8 @@ public class PlayerActions : MonoBehaviour
 
     public void Update()
     {
+        
+
         if (Input.GetKeyUp(KeyCode.E))
         {
             Collider[] colliderArray = Physics.OverlapSphere(transform.position, MaxUseDist);
@@ -44,7 +46,7 @@ public class PlayerActions : MonoBehaviour
                         if (!door.isLocked)
                             door.Open(transform.position);
 
-                        if (door.isLocked)
+                        if (door.isLocked && door.tag != "EscapeDoor")
                         {
                             if (inventory.hasKey(uiInventory.selected))
                             {
@@ -55,7 +57,20 @@ public class PlayerActions : MonoBehaviour
                                 door.PlayDoorLockedSound();
                             }
                         }
-                            
+
+                        if (door.isLocked && door.tag == "EscapeDoor")
+                        {
+                            if (inventory.hasEscapeKey(uiInventory.selected))
+                            {
+                                door.unLock();
+                                inventory.removeEscapeKey(uiInventory.selected);
+                            }
+                            else
+                            {
+                                door.PlayDoorLockedSound();
+                            }
+                        }
+
                     }
                     else
                     {
@@ -69,7 +84,6 @@ public class PlayerActions : MonoBehaviour
                     uiInventory.UpdateIventory(collider.name);
                     Destroy(collider.gameObject);
                 }
-
 
             }
         }
