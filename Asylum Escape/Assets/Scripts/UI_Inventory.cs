@@ -27,14 +27,10 @@ public class UI_Inventory : MonoBehaviour
 
             refresInventory();
         }
-        if (Input.GetMouseButtonDown(0) && inventory.GetItems()[selected].itemUse())
-        {
-            inventory.elemineteItem(selected);
-            refresInventory();
-        }
+        
     }
 
-        public void Awake()
+    public void Awake()
     {
         itemSlotContainer = transform.Find("Inventory");
         itemSlotTemplete = itemSlotContainer.Find("ItemSlotTemplate");
@@ -48,12 +44,8 @@ public class UI_Inventory : MonoBehaviour
         refresInventory();
     }
 
-    public bool UpdateIventory(string name)
+    public void UpdateIventory(string name)
     {
-
-        if (inventory.GetItems()[selected].itemType != Item.ItemType.Null)
-            return false;
-
         switch (name)
         {
             default:
@@ -66,14 +58,9 @@ public class UI_Inventory : MonoBehaviour
                     inventory.setItem(selected, new Item(Item.ItemType.Key));
                     break;
                 }
-            case "Battery":
-                {
-                    inventory.setItem(selected, new Item(Item.ItemType.Battery));
-                    break;
-                }
         }
         refresInventory();
-        return true;
+        print(inventory.printInv());
     }
 
 
