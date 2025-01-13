@@ -5,9 +5,7 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     [SerializeField]
-    public bool isLockeble = false;
-    [SerializeField]
-    public GameObject neightboor = null;
+    public GameObject neighbour = null;
     public bool isOpen = false;
     [SerializeField]
     private bool isRotatingDoor = true;
@@ -20,6 +18,9 @@ public class Door : MonoBehaviour
     private Vector3 inwardDirection = Vector3.forward;
     private Vector3 startRotation;
     public bool isLocked = false;
+
+    public AudioClip doorOpeningSound;
+    public AudioClip doorLockedSound;
 
     private Coroutine animationCoroutine;
 
@@ -36,7 +37,7 @@ public class Door : MonoBehaviour
                 
                 if (sibling != transform && !sibling.gameObject.name.ToLower().EndsWith("frame") )
                 {
-                    neightboor = sibling.gameObject;
+                    neighbour = sibling.gameObject;
 
                 }
             }
@@ -60,26 +61,29 @@ public class Door : MonoBehaviour
                 animationCoroutine = StartCoroutine(DoRotationOpen(dot > 0)); 
             }
 
-            if (neightboor != null)
-                neightboor.GetComponent<Door>().Open(userPosition);
-
-            
-
+            if (neighbour != null)
+                neighbour.GetComponent<Door>().Open(userPosition);
                     
         }
+    }
+
+    public void PlayDoorLockedSound()
+    {
+        AudioManager.Instance.PlaySFX(doorLockedSound);
     }
 
     public void Lock()
     {
         isLocked = true;
-        if(neightboor != null)
-            neightboor.GetComponent<Door>().isLocked = true;
+        if(neighbour != null)
+            neighbour.GetComponent<Door>().isLocked = true;
     }
     public void unLock()
     {
+        AudioManager.Instance.PlaySFX(doorOpeningSound);
         isLocked = false;
-        if (neightboor != null)
-            neightboor.GetComponent<Door>().isLocked = false;
+        if (neighbour != null)
+            neighbour.GetComponent<Door>().isLocked = false;
     }
 
     private IEnumerator DoRotationOpen(bool openInward)
@@ -118,8 +122,8 @@ public class Door : MonoBehaviour
             {
                 animationCoroutine = StartCoroutine(DoRotationClose());
             }
-            if (neightboor != null)
-                neightboor.GetComponent<Door>().Close();
+            if (neighbour != null)
+                neighbour.GetComponent<Door>().Close();
 
         }
     }

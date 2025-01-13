@@ -41,8 +41,21 @@ public class PlayerActions : MonoBehaviour
                     Debug.Log(collider);
                     if (!door.isOpen)
                     {
+                        if (!door.isLocked)
+                            door.Open(transform.position);
 
-                        door.Open(transform.position);
+                        if (door.isLocked)
+                        {
+                            if (inventory.hasKey(uiInventory.selected))
+                            {
+                                door.unLock();
+                                inventory.removeKey(uiInventory.selected);
+                            } else
+                            {
+                                door.PlayDoorLockedSound();
+                            }
+                        }
+                            
                     }
                     else
                     {
@@ -54,7 +67,7 @@ public class PlayerActions : MonoBehaviour
                 else if (collider.tag == "Item")
                 {
                     uiInventory.UpdateIventory(collider.name);
-                    Destroy(collider);
+                    Destroy(collider.gameObject);
                 }
 
 
@@ -64,10 +77,12 @@ public class PlayerActions : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             Crouch(true);
+            isCrouching = true;
         }
         else if (Input.GetKeyUp(KeyCode.LeftControl))
         {
             Crouch(false);
+            isCrouching = false;
         }
 
     }
