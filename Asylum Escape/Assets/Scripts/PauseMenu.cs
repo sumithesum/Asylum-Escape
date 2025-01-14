@@ -7,7 +7,8 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     public GameObject PauseScreen;
-    //public GameObject HomeScreen;
+    public GameObject EscapedScreen;
+    public GameObject DiedScreen;
     private bool isPaused = false;
 
     void Start()
@@ -18,7 +19,7 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) 
+        if (Input.GetKeyDown(KeyCode.Escape) && !EscapedScreen.active && !DiedScreen.active) 
         {
             if (isPaused)
             {
