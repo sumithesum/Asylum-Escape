@@ -9,6 +9,9 @@ public class CreatureAI : MonoBehaviour
     public NavMeshAgent agent;
 
     public Transform player;
+    public Player playerObj;
+
+    public bool attacks;
 
     public LayerMask whatIsGround, whatIsPlayer;
 
@@ -27,9 +30,7 @@ public class CreatureAI : MonoBehaviour
     private Vector3 demonVisionPoint = new Vector3(0, 1, 0);
     public float totalDistanceTraveled = 0f;
     public float floor = 0;
-
-
-    private Vector3 fostaPozitie;
+    private Vector3 position30sAgo;
 
     //States
     [SerializeField] public float sightRange, attackRange;
@@ -52,7 +53,7 @@ public class CreatureAI : MonoBehaviour
         isWalking = true;
         isAttacking = false;
         lastPosition = transform.position;
-        fostaPozitie = transform.position;
+        position30sAgo = transform.position;
     }
 
 
@@ -128,8 +129,8 @@ public class CreatureAI : MonoBehaviour
         if (idleTimer2 >= idleTimeThreshold2)
         {
             idleTimer2 = 0f;
-            totalDistanceTraveled = Vector3.Distance(fostaPozitie, transform.position);
-            fostaPozitie = transform.position;
+            totalDistanceTraveled = Vector3.Distance(position30sAgo, transform.position);
+            position30sAgo = transform.position;
 
             if (totalDistanceTraveled < 10)
             {
@@ -144,7 +145,7 @@ public class CreatureAI : MonoBehaviour
         {
             idleTimer = 0f;
             idleTimer2 = 0f;
-            fostaPozitie = transform.position;
+            position30sAgo = transform.position;
 
             agent.enabled = false;
             transform.position = new Vector3(1, floor * 5, -2);
@@ -155,9 +156,9 @@ public class CreatureAI : MonoBehaviour
 
     private void AttackPlayer()
     {
-        if (isAttacking == true)
+        if (isAttacking == false)
         {
-            return;
+            playerObj.hp--;
         }
 
         isAttacking = true;
@@ -207,12 +208,12 @@ public class CreatureAI : MonoBehaviour
         isAttacking = false;
     }
 
-    //trebuie schimbate niste variabile si facute enum
     private void Patroling()
     {
+        attacks = false;
         if (isAttacking == true)
         {
-            return;
+            isAttacking = false;
         }
 
         isWalking = true;
@@ -253,9 +254,10 @@ public class CreatureAI : MonoBehaviour
 
     private void ChasePlayer()
     {
+        attacks = false;
         if (isAttacking == true)
         {
-            return;
+            isAttacking = false;
         }
 
         isWalking = true;
@@ -277,4 +279,3 @@ public class CreatureAI : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, sightRange);
     }
 }
-

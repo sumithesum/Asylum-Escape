@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -28,5 +29,10 @@ public class SceneManagerScript : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    public void LoadMenuScene()
+    {
+        SceneManager.LoadScene(0);
     }
 }

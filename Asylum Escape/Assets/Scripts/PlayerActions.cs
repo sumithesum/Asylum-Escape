@@ -46,7 +46,7 @@ public class PlayerActions : MonoBehaviour
                         if (!door.isLocked)
                             door.Open(transform.position);
 
-                        if (door.isLocked && door.tag != "EscapeDoor")
+                        if (door.isLocked && door.tag != "EscapeDoor" && door.tag != "KeypadDoor")
                         {
                             if (inventory.hasKey(uiInventory.selected))
                             {

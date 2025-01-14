@@ -37,7 +37,8 @@ public class EndScreenTrigger : MonoBehaviour
         while (elapsedTime < fadeDuration)
         {
             elapsedTime += Time.unscaledDeltaTime;
-            fadeColor.a = Mathf.Clamp01(elapsedTime / fadeDuration); 
+            fadeColor.a = Mathf.Clamp01(elapsedTime / fadeDuration);
+            if (fadeColor.a > 0.9) fadeColor.a = 0.9f;
             fadeImage.color = fadeColor; 
             yield return null;
         }
