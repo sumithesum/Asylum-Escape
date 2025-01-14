@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -20,6 +20,7 @@ namespace NavKeypad
         [Header("Settings")]
         [SerializeField] private string accessGrantedText = "Granted";
         [SerializeField] private string accessDeniedText = "Denied";
+        [SerializeField] private string playerTag = "Player"; 
 
         [Header("Visuals")]
         [SerializeField] private float displayResultTime = 1f;
@@ -38,10 +39,11 @@ namespace NavKeypad
         [SerializeField] private TMP_Text keypadDisplayText;
         [SerializeField] private AudioSource audioSource;
 
-
         private string currentInput;
         private bool displayingResult = false;
         private bool accessWasGranted = false;
+        private bool isPlayerNearby = false; 
+        public bool isLocked = true;
 
         private void Awake()
         {
@@ -49,28 +51,11 @@ namespace NavKeypad
             panelMesh.material.SetVector("_EmissionColor", screenNormalColor * screenIntensity);
         }
 
-        public void openDoor()
-        {
-            Collider[] colliderArray = Physics.OverlapSphere(transform.position, 2f);
-            foreach (Collider collider in colliderArray)
-            {
-
-                if (collider.TryGetComponent(out Door door))
-                {
-                    Debug.Log($"Name door:{door.name}");
-                    if (!door.isOpen)
-                    {
-                        door.unLock();
-                    }
-                }
-
-            }
-        }
         private void Update()
         {
-            if (displayingResult || accessWasGranted) return;
+            if (displayingResult || accessWasGranted || isLocked) return;
+            else print(isLocked);
 
-            // Detect numeric key presses from the keyboard
             if (Input.GetKeyDown(KeyCode.Alpha0)) AddInput("0");
             if (Input.GetKeyDown(KeyCode.Alpha1)) AddInput("1");
             if (Input.GetKeyDown(KeyCode.Alpha2)) AddInput("2");
@@ -82,16 +67,29 @@ namespace NavKeypad
             if (Input.GetKeyDown(KeyCode.Alpha8)) AddInput("8");
             if (Input.GetKeyDown(KeyCode.Alpha9)) AddInput("9");
 
-            // Optionally handle "enter" or "backspace" keys for validation or clearing
             if (Input.GetKeyDown(KeyCode.Return)) AddInput("enter");
             if (Input.GetKeyDown(KeyCode.Backspace)) ClearInput();
         }
 
-        // Gets value from pressed button (either via mouse click or keyboard)
+        public void Lock()
+        {
+            isLocked = true;
+            Debug.Log("Keypad is now locked.");
+        }
+
+        public void Unlock()
+        {
+            isLocked = false;
+            Debug.Log("Keypad is now unlocked.");
+        }
+
         public void AddInput(string input)
         {
+            if (isLocked) return;
+
             Debug.Log(input);
             audioSource.PlayOneShot(buttonClickedSfx);
+
             if (displayingResult || accessWasGranted) return;
 
             switch (input)
@@ -100,10 +98,7 @@ namespace NavKeypad
                     CheckCombo();
                     break;
                 default:
-                    if (currentInput != null && currentInput.Length == 9) // 9 max passcode size 
-                    {
-                        return;
-                    }
+                    if (currentInput != null && currentInput.Length == 9) return;
                     currentInput += input;
                     keypadDisplayText.text = currentInput;
                     break;
@@ -122,11 +117,10 @@ namespace NavKeypad
             }
             else
             {
-                Debug.LogWarning("Couldn't process input for some reason..");
+                Debug.LogWarning("Couldn't process input.");
             }
         }
 
-        // Mainly for animations
         private IEnumerator DisplayResultRoutine(bool granted)
         {
             displayingResult = true;
