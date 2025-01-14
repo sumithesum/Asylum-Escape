@@ -31,6 +31,10 @@ public class CreatureAI : MonoBehaviour
     public float totalDistanceTraveled = 0f;
     public float floor = 0;
     private Vector3 position30sAgo;
+    private float lastAttackTime = 0.0f;
+
+    public float attackCooldown = 5.0f;
+
 
     //States
     [SerializeField] public float sightRange, attackRange;
@@ -156,6 +160,11 @@ public class CreatureAI : MonoBehaviour
 
     private void AttackPlayer()
     {
+        if (Time.time - lastAttackTime < attackCooldown)
+        {
+            return;
+        }
+
         if (isAttacking == false)
         {
             playerObj.hp--;
@@ -164,6 +173,8 @@ public class CreatureAI : MonoBehaviour
         isAttacking = true;
         isWalking = false;
         walkPointSet = false;
+
+        lastAttackTime = Time.time;
 
         // Define Attack behaviour once we have Health System etc.
         StartCoroutine(AttackRoutine());

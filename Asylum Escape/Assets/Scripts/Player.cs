@@ -113,6 +113,9 @@ public class Player : MonoBehaviour
 
     private IEnumerator FadeToEndScene()
     {
+        // So the demon animates his attack before the player dies
+        yield return new WaitForSeconds(0.5f);
+
         Image fadeImage = EndScreen.GetComponent<Image>();
         Color fadeColor = fadeImage.color;
         float elapsedTime = 0f;
