@@ -82,6 +82,23 @@ namespace NavKeypad
             isLocked = false;
             Debug.Log("Keypad is now unlocked.");
         }
+        public void openDoor()
+        {
+            Collider[] colliderArray = Physics.OverlapSphere(transform.position, 2f);
+            foreach (Collider collider in colliderArray)
+            {
+
+                if (collider.TryGetComponent(out Door door))
+                {
+                    Debug.Log($"Name door:{door.name}");
+                    if (!door.isOpen)
+                    {
+                        door.unLock();
+                    }
+                }
+
+            }
+        }
 
         public void AddInput(string input)
         {
