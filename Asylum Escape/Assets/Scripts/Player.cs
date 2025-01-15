@@ -46,6 +46,8 @@ public class Player : MonoBehaviour
         HandlePlayerMovement();
     }
 
+
+
     private bool IsGrounded()
     {
         // Raycast slightly below the player to check for ground

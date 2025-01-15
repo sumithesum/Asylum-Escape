@@ -33,7 +33,6 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-
     private void Start()
     {
         musicSource.volume = musicVolume;
@@ -47,6 +46,7 @@ public class AudioManager : MonoBehaviour
     {
         SFXSource.PlayOneShot(clip);
     }
+
 
 
     public void PlaySFXForXSeconds(AudioClip clip, float duration, float fadeDuration = 1.0f)

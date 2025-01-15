@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.SearchService;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,7 +7,9 @@ public class PauseMenu : MonoBehaviour
     public GameObject PauseScreen;
     public GameObject EscapedScreen;
     public GameObject DiedScreen;
+    public GameObject ui_inventory = null;
     private bool isPaused = false;
+    public bool isInSettings = false;
 
     void Start()
     {
@@ -19,7 +19,7 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !EscapedScreen.active && !DiedScreen.active) 
+        if (Input.GetKeyDown(KeyCode.Escape) && !EscapedScreen.activeSelf && !DiedScreen.activeSelf && !isInSettings) 
         {
             if (isPaused)
             {
@@ -39,6 +39,7 @@ public class PauseMenu : MonoBehaviour
         isPaused = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        ui_inventory.gameObject.SetActive(false);
     }
 
     public void ResumeGame()
@@ -48,10 +49,19 @@ public class PauseMenu : MonoBehaviour
         isPaused = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        ui_inventory.gameObject.SetActive(true);
     }
 
     public void QuitGame() {
         PauseScreen.SetActive(false);
         SceneManager.LoadSceneAsync(0);
     }
+
+    public void Settings()
+    {
+        isInSettings = !isInSettings;
+    }
+
+
+
 }
