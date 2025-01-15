@@ -52,6 +52,7 @@ public class PlayerActions : MonoBehaviour
                             {
                                 door.unLock();
                                 inventory.removeKey(uiInventory.selected);
+                                uiInventory.refreshInventory();
                             } else
                             {
                                 door.PlayDoorLockedSound();
@@ -64,6 +65,7 @@ public class PlayerActions : MonoBehaviour
                             {
                                 door.unLock();
                                 inventory.removeEscapeKey(uiInventory.selected);
+                                uiInventory.refreshInventory();
                             }
                             else
                             {

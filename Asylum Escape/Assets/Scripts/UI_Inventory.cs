@@ -78,7 +78,6 @@ public class UI_Inventory : MonoBehaviour
                 }
         }
         refreshInventory();
-        print(inventory.printInv());
     }
 
     public void removeBattery()
